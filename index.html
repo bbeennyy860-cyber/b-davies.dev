@@ -1,261 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Benedict Anokye-Davies — CS with AI student at University of Nottingham. Quant developer, systems builder." />
-  <meta property="og:title" content="Benedict Anokye-Davies" />
-  <meta property="og:description" content="CS with AI @ University of Nottingham. Quant dev, systems builder." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://b-davies.dev" />
-  <title>Benedict Anokye-Davies</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benedict Anokye-Davies | Quant & AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .project-preview {
+            width: 100%;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .project-preview svg {
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .project-card:hover .project-preview svg {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
-  <header class="site-header">
-    <nav class="nav">
-      <a href="#" class="nav-logo">ben.</a>
-      <ul class="nav-links">
-        <li><a href="#about">about</a></li>
-        <li><a href="#projects">projects</a></li>
-        <li><a href="#blog">blog</a></li>
-        <li><a href="mailto:benanokye577@gmail.com" class="nav-contact">contact</a></li>
-      </ul>
-      <button class="nav-toggle" aria-label="toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </nav>
-  </header>
+    <canvas id="particles-bg"></canvas>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="container">
-        <div class="hero-content fade-up">
-          <p class="hero-label">hello, I'm</p>
-          <h1 class="hero-name">Benedict<br />Anokye-Davies</h1>
-          <p class="hero-sub">Computer Science with AI <span class="accent">@</span> University of Nottingham</p>
-          <p class="hero-tagline">I build quantitative trading systems and AI infrastructure.<br />Systems that work, at scale, with real money on the line.</p>
-          <div class="hero-actions">
-            <a href="#projects" class="btn btn-primary">view projects</a>
-            <a href="#about" class="btn btn-ghost">about me</a>
-          </div>
-        </div>
-        <div class="hero-code fade-up fade-up-delay">
-          <div class="code-window">
-            <div class="code-bar">
-              <span class="dot dot-red"></span>
-              <span class="dot dot-yellow"></span>
-              <span class="dot dot-green"></span>
-              <span class="code-filename">signal_engine.py</span>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="shimmer-text">Benedict Anokye-Davies</h1>
+            <div class="typing-container">
+                <span id="typing-text"></span><span class="cursor">|</span>
             </div>
-            <pre class="code-body"><code><span class="c-kw">class</span> <span class="c-cls">SignalEngine</span>:
-    <span class="c-kw">def</span> <span class="c-fn">__init__</span>(<span class="c-self">self</span>, feeds: <span class="c-type">list</span>):
-        <span class="c-self">self</span>.feeds = feeds
-        <span class="c-self">self</span>.conviction = <span class="c-num">0.0</span>
-
-    <span class="c-kw">def</span> <span class="c-fn">score</span>(<span class="c-self">self</span>, token: <span class="c-type">str</span>) -> <span class="c-type">float</span>:
-        signals = [
-            f.evaluate(token)
-            <span class="c-kw">for</span> f <span class="c-kw">in</span> <span class="c-self">self</span>.feeds
-        ]
-        <span class="c-kw">return</span> <span class="c-fn">sum</span>(signals) / <span class="c-fn">len</span>(signals)</code></pre>
-          </div>
-        </div>
-      </div>
-      <div class="hero-scroll">
-        <a href="#about" aria-label="scroll to about">
-          <span class="scroll-line"></span>
-        </a>
-      </div>
-    </section>
-
-    <section class="about section" id="about">
-      <div class="container">
-        <div class="section-header fade-up">
-          <span class="section-tag">01. about</span>
-          <h2 class="section-title">who I am</h2>
-        </div>
-        <div class="about-grid fade-up">
-          <div class="about-text">
-            <p>
-              20-year-old CS student with a thing for systems that handle real complexity.
-              I'm in my first year at Nottingham studying CS with AI, and most of my time
-              outside lectures goes into building things — trading bots, AI assistants, dashboards.
-            </p>
-            <p>
-              My technical interests sit at the intersection of <span class="accent-text">quantitative trading</span>,
-              <span class="accent-text">AI systems</span>, and low-level infrastructure. I care about
-              correctness, latency, and what happens when something breaks in production.
-            </p>
-            <p>
-              Sutton Trust alumni. I know how to get into rooms I wasn't supposed to be in.
-            </p>
-          </div>
-          <div class="skills-grid">
-            <h3 class="skills-label">stack</h3>
-            <ul class="skills-list">
-              <li><span class="skill-name">Python</span><span class="skill-bar"><span class="skill-fill" style="--w:90%"></span></span></li>
-              <li><span class="skill-name">JavaScript / TypeScript</span><span class="skill-bar"><span class="skill-fill" style="--w:75%"></span></span></li>
-              <li><span class="skill-name">React</span><span class="skill-bar"><span class="skill-fill" style="--w:70%"></span></span></li>
-              <li><span class="skill-name">SQL</span><span class="skill-bar"><span class="skill-fill" style="--w:65%"></span></span></li>
-              <li><span class="skill-name">Linux / CLI</span><span class="skill-bar"><span class="skill-fill" style="--w:80%"></span></span></li>
-              <li><span class="skill-name">REST APIs</span><span class="skill-bar"><span class="skill-fill" style="--w:85%"></span></span></li>
-              <li><span class="skill-name">Git</span><span class="skill-bar"><span class="skill-fill" style="--w:80%"></span></span></li>
-              <li><span class="skill-name">Machine Learning</span><span class="skill-bar"><span class="skill-fill" style="--w:55%"></span></span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="projects section" id="projects">
-      <div class="container">
-        <div class="section-header fade-up">
-          <span class="section-tag">02. projects</span>
-          <h2 class="section-title">things I've built</h2>
-        </div>
-        <div class="projects-grid">
-
-          <article class="project-card fade-up" data-index="01">
-            <div class="project-header">
-              <span class="project-num">01</span>
-              <div class="project-links">
-                <a href="https://github.com/nxiss" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.09.682-.218.682-.484 0-.236-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .269.18.579.688.481C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
-                </a>
-              </div>
+            <div class="cta-group">
+                <a href="#projects" class="btn btn-primary">View Systems</a>
+                <a href="mailto:benanokye577@gmail.com" class="btn btn-secondary">Initialize Contact</a>
             </div>
-            <h3 class="project-title">AxiomFlow QuantLab</h3>
-            <p class="project-desc">
-              Solana meme coin trading system with smart money flow detection.
-              Multi-feed signal engine aggregates on-chain and market data to produce
-              conviction scores that drive position sizing decisions.
-            </p>
-            <ul class="project-tags">
-              <li>Python</li>
-              <li>Helius API</li>
-              <li>DexScreener</li>
-              <li>Solana</li>
-            </ul>
-          </article>
-
-          <article class="project-card fade-up" data-index="02">
-            <div class="project-header">
-              <span class="project-num">02</span>
-              <div class="project-links">
-                <a href="https://github.com/nxiss" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.09.682-.218.682-.484 0-.236-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .269.18.579.688.481C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
-                </a>
-              </div>
-            </div>
-            <h3 class="project-title">Atlas</h3>
-            <p class="project-desc">
-              AI-powered personal assistant with autonomous task execution. Handles
-              multi-model orchestration across Anthropic, OpenAI, and Gemini, Discord
-              integration for always-on access, and vector memory for persistent context.
-            </p>
-            <ul class="project-tags">
-              <li>Python</li>
-              <li>OpenClaw</li>
-              <li>Discord API</li>
-              <li>Vector DB</li>
-            </ul>
-          </article>
-
-          <article class="project-card fade-up" data-index="03">
-            <div class="project-header">
-              <span class="project-num">03</span>
-              <div class="project-links">
-                <a href="https://github.com/nxiss" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.09.682-.218.682-.484 0-.236-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .269.18.579.688.481C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
-                </a>
-              </div>
-            </div>
-            <h3 class="project-title">Kalshi Prediction Bot</h3>
-            <p class="project-desc">
-              Automated sports prediction market trading bot running in production on a VPS.
-              Handles NBA and NCAAB markets with real capital, live order management,
-              and systematic position tracking.
-            </p>
-            <ul class="project-tags">
-              <li>Python</li>
-              <li>Kalshi API</li>
-              <li>VPS</li>
-              <li>systemd</li>
-            </ul>
-          </article>
-
-          <article class="project-card fade-up" data-index="04">
-            <div class="project-header">
-              <span class="project-num">04</span>
-              <div class="project-links">
-                <a href="https://github.com/nxiss" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.09.682-.218.682-.484 0-.236-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .269.18.579.688.481C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
-                </a>
-              </div>
-            </div>
-            <h3 class="project-title">AFOS Trading Dashboard</h3>
-            <p class="project-desc">
-              Full-stack financial dashboard covering US Markets, Crypto, Earnings screener,
-              Politician trade disclosures, and Prediction markets in a single interface.
-              Live data aggregated from multiple APIs.
-            </p>
-            <ul class="project-tags">
-              <li>React</li>
-              <li>TypeScript</li>
-              <li>Finnhub</li>
-              <li>Polymarket</li>
-            </ul>
-          </article>
-
         </div>
-      </div>
-    </section>
-
-    <section class="blog section" id="blog">
-      <div class="container">
-        <div class="section-header fade-up">
-          <span class="section-tag">03. blog</span>
-          <h2 class="section-title">writing</h2>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
         </div>
-        <div class="blog-empty fade-up">
-          <p class="blog-empty-text">
-            Writing in progress. Check back — or don't, I'll probably post on GitHub first anyway.
-          </p>
-          <span class="blog-empty-meta">coming soon</span>
-        </div>
-      </div>
-    </section>
-  </main>
+    </header>
 
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-inner">
-        <p class="footer-copy">Benedict Anokye-Davies</p>
-        <ul class="footer-links">
-          <li>
+    <main>
+        <section id="about" class="section">
+            <h2 class="section-title">01. system_profile</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>Computer Science with AI undergraduate at the University of Nottingham. I build data-driven trading systems, train models, and orchestrate autonomous agents.</p>
+                    <p>Fascinated by market microstructure, statistical arbitrage, and the intersection of artificial intelligence with quantitative finance. When I'm not writing algorithms, I'm building infrastructure to support them.</p>
+                    
+                    <div class="skills-container">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">AWS/GCP</span>
+                        <span class="skill-tag">Quantitative Analysis</span>
+                        <span class="skill-tag">LLM Orchestration</span>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <svg viewBox="0 0 400 400" class="network-graph" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="5" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+                        <g class="connections" stroke="rgba(139,92,246,0.2)" stroke-width="1">
+                            <line x1="200" y1="200" x2="100" y2="100" />
+                            <line x1="200" y1="200" x2="300" y2="80" />
+                            <line x1="200" y1="200" x2="350" y2="250" />
+                            <line x1="200" y1="200" x2="120" y2="300" />
+                            <line x1="100" y1="100" x2="150" y2="40" />
+                            <line x1="300" y1="80" x2="380" y2="150" />
+                            <line x1="350" y1="250" x2="280" y2="350" />
+                            <line x1="120" y1="300" x2="60" y2="220" />
+                            <line x1="100" y1="100" x2="60" y2="220" />
+                        </g>
+                        <g class="nodes" fill="#8b5cf6" filter="url(#glow)">
+                            <circle cx="200" cy="200" r="8" class="node-center" fill="#f59e0b" />
+                            <circle cx="100" cy="100" r="4" class="node pulse-1" />
+                            <circle cx="300" cy="80" r="5" class="node pulse-2" />
+                            <circle cx="350" cy="250" r="4" class="node pulse-3" />
+                            <circle cx="120" cy="300" r="6" class="node pulse-1" />
+                            <circle cx="150" cy="40" r="3" class="node pulse-2" />
+                            <circle cx="380" cy="150" r="3" class="node pulse-3" />
+                            <circle cx="280" cy="350" r="4" class="node pulse-1" />
+                            <circle cx="60" cy="220" r="4" class="node pulse-2" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <h2 class="section-title">02. deployed_architecture</h2>
+            <div class="projects-container">
+                <div class="glass-card project-card stripe-violet reveal">
+                    <div class="project-content">
+                        <div class="project-preview">
+                            <svg viewBox="0 0 400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="grad-violet" x1="0%" y1="100%" x2="0%" y2="0%">
+                                        <stop offset="0%" stop-color="rgba(139,92,246,0.1)" />
+                                        <stop offset="100%" stop-color="rgba(139,92,246,0)" />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M0,120 L0,60 L40,80 L80,40 L120,70 L160,30 L200,50 L240,20 L280,60 L320,10 L360,40 L400,20 L400,120 Z" fill="url(#grad-violet)" />
+                                <path d="M0,60 L40,80 L80,40 L120,70 L160,30 L200,50 L240,20 L280,60 L320,10 L360,40 L400,20" fill="none" stroke="#8b5cf6" stroke-width="2" />
+                                
+                                <rect x="35" y="75" width="10" height="45" fill="#ef4444" opacity="0.6" />
+                                <rect x="75" y="35" width="10" height="85" fill="#10b981" opacity="0.6" />
+                                <rect x="115" y="65" width="10" height="55" fill="#ef4444" opacity="0.6" />
+                                <rect x="155" y="25" width="10" height="95" fill="#10b981" opacity="0.6" />
+                                <rect x="195" y="45" width="10" height="75" fill="#ef4444" opacity="0.6" />
+                                <rect x="235" y="15" width="10" height="105" fill="#10b981" opacity="0.6" />
+                                <rect x="275" y="55" width="10" height="65" fill="#ef4444" opacity="0.6" />
+                                <rect x="315" y="5" width="10" height="115" fill="#10b981" opacity="0.6" />
+                            </svg>
+                        </div>
+                        <div class="project-header">
+                            <h3>AxiomFlow QuantLab</h3>
+                            <span class="project-tech">Python, Pandas, Ray, Solana</span>
+                        </div>
+                        <p class="project-desc">8,000+ signals analyzed, 57 alpha wallets tracked, conviction-based sizing.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Architecture &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card project-card stripe-amber reveal" style="transition-delay: 0.15s">
+                    <div class="project-content">
+                        <div class="project-preview">
+                            <svg viewBox="0 0 400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                <g stroke="rgba(245,158,11,0.2)" stroke-width="1">
+                                    <line x1="200" y1="60" x2="100" y2="30" />
+                                    <line x1="200" y1="60" x2="300" y2="30" />
+                                    <line x1="200" y1="60" x2="150" y2="90" />
+                                    <line x1="200" y1="60" x2="250" y2="90" />
+                                    <line x1="100" y1="30" x2="50" y2="50" />
+                                    <line x1="300" y1="30" x2="350" y2="50" />
+                                </g>
+                                <g fill="#f59e0b">
+                                    <circle cx="200" cy="60" r="8" />
+                                    <circle cx="100" cy="30" r="5" />
+                                    <circle cx="300" cy="30" r="5" />
+                                    <circle cx="150" cy="90" r="4" />
+                                    <circle cx="250" cy="90" r="4" />
+                                    <circle cx="50" cy="50" r="3" />
+                                    <circle cx="350" cy="50" r="3" />
+                                </g>
+                                <g stroke="#f59e0b" stroke-width="1.5" fill="none" opacity="0.5">
+                                    <circle cx="200" cy="60" r="16" stroke-dasharray="2 4" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="project-header">
+                            <h3>Atlas AI</h3>
+                            <span class="project-tech">OpenClaw, Python, Vector DB</span>
+                        </div>
+                        <p class="project-desc">15+ models orchestrated, 100+ files in vector memory, autonomous execution.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Documentation &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card project-card stripe-cyan reveal" style="transition-delay: 0.3s">
+                    <div class="project-content">
+                        <div class="project-preview">
+                            <svg viewBox="0 0 400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="40" y="20" width="320" height="80" rx="4" fill="rgba(6,182,212,0.05)" stroke="rgba(6,182,212,0.2)" stroke-width="1" />
+                                
+                                <text x="60" y="45" fill="#94a3b8" font-family="monospace" font-size="12">MARKET PROBABILITY</text>
+                                <text x="340" y="45" fill="#06b6d4" font-family="monospace" font-size="14" font-weight="bold" text-anchor="end">68.5%</text>
+                                
+                                <rect x="60" y="60" width="280" height="8" rx="4" fill="rgba(255,255,255,0.1)" />
+                                <rect x="60" y="60" width="192" height="8" rx="4" fill="#06b6d4" />
+                                
+                                <text x="60" y="90" fill="#10b981" font-family="monospace" font-size="12">YES: 68¢</text>
+                                <text x="340" y="90" fill="#ef4444" font-family="monospace" font-size="12" text-anchor="end">NO: 32¢</text>
+                                
+                                <rect x="180" y="78" width="40" height="16" rx="2" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="1" />
+                                <text x="200" y="90" fill="#06b6d4" font-family="monospace" font-size="10" text-anchor="middle">EV+</text>
+                            </svg>
+                        </div>
+                        <div class="project-header">
+                            <h3>Kalshi Bot</h3>
+                            <span class="project-tech">Node.js, Kalshi API, Statistical Models</span>
+                        </div>
+                        <p class="project-desc">Production-deployed, real capital, automated sports prediction markets.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Metrics &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card project-card stripe-green reveal" style="transition-delay: 0.45s">
+                    <style>
+                        .stripe-green::before { background: #10b981; }
+                        .project-tech.tech-green { color: #10b981; }
+                        .project-link.link-green:hover { color: #10b981; }
+                    </style>
+                    <div class="project-content">
+                        <div class="project-preview">
+                            <svg viewBox="0 0 400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20,60 Q100,20 200,60 T400,60" fill="none" stroke="rgba(16,185,129,0.3)" stroke-width="1.5" />
+                                <path d="M20,60 Q100,40 200,80 T400,40" fill="none" stroke="rgba(16,185,129,0.2)" stroke-width="1" />
+                                <path d="M20,60 Q100,80 200,40 T400,90" fill="none" stroke="rgba(16,185,129,0.15)" stroke-width="1" />
+                                <path d="M20,60 Q100,90 200,100 T400,30" fill="none" stroke="rgba(16,185,129,0.1)" stroke-width="1" />
+                                <path d="M20,60 Q100,10 200,50 T400,70" fill="none" stroke="rgba(16,185,129,0.25)" stroke-width="1" />
+                                
+                                <path d="M20,60 Q100,0 200,30 T400,10" fill="none" stroke="#10b981" stroke-width="2" />
+                                
+                                <line x1="20" y1="20" x2="20" y2="100" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2 2" />
+                                <line x1="20" y1="100" x2="380" y2="100" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+                                <line x1="20" y1="60" x2="380" y2="60" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="4 4" />
+                                
+                                <text x="385" y="14" fill="#10b981" font-family="monospace" font-size="10" text-anchor="end">ITM</text>
+                                <text x="385" y="95" fill="rgba(255,255,255,0.4)" font-family="monospace" font-size="10" text-anchor="end">OTM</text>
+                            </svg>
+                        </div>
+                        <div class="project-header">
+                            <span class="project-tech tech-green">JavaScript, Canvas API, Quant Finance</span>
+                        </div>
+                        <div class="project-metrics">
+                            <span class="metric-tag" style="font-family: var(--font-mono); font-size: 0.8rem; color: #94a3b8; display: inline-block; margin-bottom: 1rem;">10,000 paths | real-time viz | Black-Scholes validated</span>
+                        </div>
+                        <div class="project-links">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <h2 class="section-title">03. execution_log</h2>
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <div class="timeline-date">2026 - Present</div>
+                        <h3>University of Nottingham</h3>
+                        <h4>Computer Science with AI</h4>
+                        <p>Specializing in machine learning, algorithms, and complex systems.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <div class="timeline-date">2025</div>
+                        <h3>Vexel Logic</h3>
+                        <h4>Freelance Development</h4>
+                        <p>Architected and delivered full-stack web solutions and automated systems.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <div class="timeline-date">2024</div>
+                        <h3>Sutton Trust</h3>
+                        <h4>Programme Alumni</h4>
+                        <p>Selected participant for rigorous academic and professional development.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <div class="timeline-date">2023</div>
+                        <h3>SUEZ</h3>
+                        <h4>SQL Team Shadowing</h4>
+                        <p>Observed enterprise database architecture and assisted with practical data pipelines.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="section">
+            <h2 class="section-title">04. active_research</h2>
+            <a href="blog/smart-money-solana.html" class="blog-teaser glass-card reveal" style="display: block; text-decoration: none; color: inherit;">
+                <div class="coming-soon">Published</div>
+                <h3>How I Built a Trading System That Follows Smart Money on Solana</h3>
+                <p>Tracking 57 alpha wallets, detecting coordinated buys via Helius enhanced transactions, and scoring signals with a smart-money-first MFA model.</p>
+                <div style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-primary);">Read post &amp;rarr;</div>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-links">
             <a href="https://github.com/nxiss" target="_blank" rel="noopener noreferrer">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-label="GitHub"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.09.682-.218.682-.484 0-.236-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .269.18.579.688.481C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
             </a>
-          </li>
-          <li>
             <a href="https://linkedin.com/in/benedict-anokye-davies" target="_blank" rel="noopener noreferrer">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-label="LinkedIn"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
             </a>
-          </li>
-          <li>
             <a href="mailto:benanokye577@gmail.com">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-label="Email"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </footer>
+        </div>
+        <p class="footer-text">Designed and built by Benedict Anokye-Davies</p>
+    </footer>
 
-  <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

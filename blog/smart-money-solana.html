@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How I Built a Trading System That Follows Smart Money on Solana | Benedict Anokye-Davies</title>
+    <meta name="description" content="A deep dive into building AxiomFlow QuantLab — a Solana meme coin signal engine that tracks alpha wallets and detects coordinated buying before the crowd.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .blog-header {
+            min-height: 55vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 2rem 4rem;
+        }
+
+        .blog-header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .blog-back {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+            background: rgba(8, 8, 12, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .blog-back:hover {
+            color: var(--accent-violet);
+        }
+
+        .blog-tag {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.3rem 0.8rem;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-violet);
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-violet) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            flex-wrap: wrap;
+        }
+
+        .blog-meta .accent {
+            color: var(--accent-amber);
+        }
+
+        article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        article p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        article h2 {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--accent-violet);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin: 3.5rem 0 1.5rem;
+        }
+
+        article h2::before {
+            content: '> ';
+            color: var(--accent-amber);
+        }
+
+        article h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        article strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .code-block {
+            background: rgba(8, 8, 12, 0.9);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 8px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(139, 92, 246, 0.05);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .code-lang {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-violet);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-filename {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .code-block pre {
+            padding: 1.5rem;
+            margin: 0;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+        }
+
+        article p code,
+        article li code {
+            font-family: var(--font-mono);
+            font-size: 0.875em;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-cyan);
+            padding: 0.15em 0.4em;
+            border-radius: 3px;
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-amber);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+
+        .metric-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .callout {
+            border-left: 3px solid var(--accent-amber);
+            background: rgba(245, 158, 11, 0.05);
+            border-radius: 0 8px 8px 0;
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .callout.violet {
+            border-left-color: var(--accent-violet);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .callout.cyan {
+            border-left-color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.05);
+        }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
+        .callout-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-amber);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .callout.violet .callout-label { color: var(--accent-violet); }
+        .callout.cyan .callout-label { color: var(--accent-cyan); }
+
+        .weight-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .weight-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            font-weight: 400;
+        }
+
+        .weight-table td {
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .weight-table tr:hover td {
+            background: rgba(139, 92, 246, 0.04);
+        }
+
+        .weight-bar { display: flex; align-items: center; gap: 0.75rem; }
+        .weight-bar-fill { height: 4px; border-radius: 2px; background: var(--accent-violet); }
+        .weight-bar-fill.amber { background: var(--accent-amber); }
+        .weight-bar-fill.cyan { background: var(--accent-cyan); }
+        .weight-bar-fill.dim { background: var(--text-dim); }
+
+        article ul,
+        article ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        article li {
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        article li::marker { color: var(--accent-violet); }
+
+        .section-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 3rem 0;
+        }
+
+        .blog-footer-nav {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 2rem 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .blog-footer-nav a {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .blog-footer-nav a:hover { color: var(--accent-violet); }
+
+        .kw { color: #c792ea; }
+        .fn { color: #82aaff; }
+        .st { color: #c3e88d; }
+        .cm { color: #546e7a; font-style: italic; }
+        .nb { color: var(--accent-amber); }
+        .op { color: #89ddff; }
+
+        @media (max-width: 768px) {
+            .blog-header { padding: 0 1rem 3rem; min-height: 45vh; }
+            article { padding: 0 1rem 4rem; }
+            .blog-back { top: 1rem; left: 1rem; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles-bg"></canvas>
+
+    <a href="../index.html" class="blog-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        back
+    </a>
+
+    <header class="blog-header">
+        <div class="blog-header-content">
+            <div class="blog-tag">Research</div>
+            <h1 class="blog-title">How I Built a Trading System<br>That Follows Smart Money on Solana</h1>
+            <div class="blog-meta">
+                <span>Benedict Anokye-Davies</span>
+                <span class="accent">Feb 2026</span>
+                <span>~12 min read</span>
+                <span>Python &middot; Solana &middot; Helius API</span>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <p>
+            99.37% of tokens launched on Pump.fun fail. They get created, attract a few hundred dollars of volume,
+            and die — usually within 24 hours. The 0.63% that graduate to a real DEX are the only ones worth
+            trading. The question is how you find them before the crowd does.
+        </p>
+
+        <p>
+            This is the story of building AxiomFlow QuantLab — a signal engine that watches 57 alpha wallets
+            around the clock, detects when profitable traders coordinate buys on the same token, and scores
+            those opportunities through a weighted multi-factor model before retail discovers them.
+            The system has evaluated 8,000+ candidate signals. A backtest on the most tradeable subset
+            showed +8.3% return-on-capital. And there’s one debugging story in here that took weeks to find,
+            because the bug was so obvious it was invisible.
+        </p>
+
+        <h2>the_problem</h2>
+
+        <p>
+            The naive approach to meme coin trading is to watch DexScreener trending and buy whatever looks
+            like it’s pumping. That’s how you become exit liquidity. By the time something appears on a
+            trending list, someone else already found it earlier, bought lower, and is now selling into you.
+        </p>
+
+        <p>
+            The more honest question is: <em>who consistently makes money in this environment</em>, and how do
+            you see what they’re doing in real time? Those wallets exist. On Solana, transaction history is public.
+            If you can identify wallets with sustained win rates across dozens of trades — and then monitor their
+            buys at low latency — you have a real information edge.
+        </p>
+
+        <div class="callout violet">
+            <div class="callout-label">Core Thesis</div>
+            <p>
+                Track alpha wallets (historically profitable traders) via the Helius Enhanced Transactions API.
+                When 2+ alpha wallets buy the same token within a 5-minute window, treat that clustering as a
+                high-priority candidate and score it before the crowd arrives.
+            </p>
+        </div>
+
+        <h2>architecture_overview</h2>
+
+        <p>
+            AxiomFlow V15 is intentionally simple at the top level: multiple data feeds emit token candidates,
+            a unified scoring engine assigns a composite score, veto gates hard-reject obvious trash, and
+            a conviction-based sizer decides whether the system would allocate $10, $15, or $25 on a $300 bankroll.
+        </p>
+
+        <p>
+            The feeds are not equal. In V14 I made the mistake of treating DexScreener as the primary source and
+            “smart money” as a passive filter. The V15 overhaul flips that: smart money becomes the primary signal.
+        </p>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-lang">text</span>
+                <span class="code-filename">candidate sources</span>
+            </div>
+            <pre><code>[Tier 1]
+- Alpha wallets (Helius enhanced TX scans)
+- PumpSwap graduations (launch → real liquidity event)
+
+[Tier 2]
+- DexScreener boosts (paid boost activity)
+- Profiles (tokens with social/metadata presence)</code></pre>
+        </div>
+
+        <h2>smart_money_flow_detection</h2>
+
+        <p>
+            The heart of the system is <code>SmartMoneyFlowDetector</code>. Every scan cycle it pulls recent
+            transactions for the top alpha wallets using Helius’ Enhanced Transactions endpoint
+            (<code>/v0/addresses/&lt;address&gt;/transactions</code>), extracts net token inflows, and records
+            “recent buys” in a 5-minute sliding window. If a mint shows up across multiple wallets in that window,
+            it emits an <code>AlphaAlert</code>.
+        </p>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-lang">Python</span>
+                <span class="code-filename">src/intelligence/smart_money_flow.py</span>
+            </div>
+            <pre><code><span class="kw">def</span> <span class="fn">scan_alpha_activity</span>(<span class="nb">self</span>) <span class="op">-></span> list[AlphaAlert]:
+    <span class="cm"># lookback_seconds defaults to 300 (5 minutes)</span>
+    cutoff = int(time.time()) - <span class="nb">self</span>._lookback_seconds
+
+    <span class="kw">for</span> wallet <span class="kw">in</span> alpha_wallets:
+        txs = get_address_transactions(wallet, limit=<span class="nb">self</span>._per_wallet_tx_limit, timeout=<span class="nb">10</span>)
+
+        <span class="kw">for</span> tx <span class="kw">in</span> txs:
+            tx_ts = _safe_int(tx.get(<span class="st">"timestamp"</span>))
+            <span class="kw">if</span> tx_ts <span class="kw">is None</span> <span class="kw">or</span> tx_ts &lt; cutoff:
+                <span class="kw">continue</span>
+
+            <span class="kw">for</span> mint, _ <span class="kw">in</span> <span class="nb">self</span>._extract_token_buys(wallet, tx):
+                <span class="nb">self</span>._record_buy(AlphaBuy(wallet=wallet, token_address=mint, amount_usd=<span class="nb">0.0</span>, timestamp=tx_ts))
+
+    <span class="cm"># Emit an alert if 2+ wallets bought the same mint within the window.</span>
+    <span class="kw">for</span> mint, buys <span class="kw">in</span> <span class="nb">self</span>._recent_buys.items():
+        wallets = sorted({b.wallet <span class="kw">for</span> b <span class="kw">in</span> buys <span class="kw">if</span> b.timestamp &gt;= cutoff})
+        <span class="kw">if</span> len(wallets) &lt; <span class="nb">2</span>:
+            <span class="kw">continue</span>
+        alerts.append(AlphaAlert(token_address=mint, alpha_count=len(wallets), urgency=_clamp(len(wallets) / <span class="nb">5.0</span>), wallets=wallets))</code></pre>
+        </div>
+
+        <p>
+            Two implementation details matter more than most people expect:
+        </p>
+
+        <ol>
+            <li>
+                <strong>Helius Enhanced TXs</strong> returns parsed <code>tokenTransfers</code> already decoded.
+                If you’ve ever tried to extract SPL token balance deltas from raw Solana instructions at scale,
+                you’ll appreciate how much work this avoids.
+            </li>
+            <li>
+                <strong>“2 wallets within 5 minutes”</strong> is not arbitrary. One wallet buying is noise.
+                Two wallets in a tight window is intent. Three+ wallets is high conviction.
+            </li>
+        </ol>
+
+        <div class="callout">
+            <div class="callout-label">Helius gotcha</div>
+            <p>
+                The enhanced endpoint is <code>api.helius.xyz</code>. The legacy <code>api.helius.dev</code> domain is dead.
+                If your scan loop returns empty arrays without errors, verify the base URL first.
+            </p>
+        </div>
+
+        <h2>multi_factor_scoring</h2>
+
+        <p>
+            Smart money clustering is the source of candidates. Scoring is how we avoid buying every cluster.
+            A meme coin can have alpha wallets involved and still be toxic: thin liquidity, mint authority active,
+            deployer dumping, or a distribution too concentrated to survive.
+        </p>
+
+        <p>
+            V15 uses a linear weighted composite (MFA score). The weights are calibrated from real diagnostics:
+            V14 failed because it had weak candidate sources, not because its safety filters were too strict.
+            The fix was to make smart money dominant and demote lagging indicators.
+        </p>
+
+        <table class="weight-table">
+            <thead>
+                <tr>
+                    <th>Signal</th>
+                    <th>Weight</th>
+                    <th>Visual</th>
+                    <th>What it represents</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>smart_money</td>
+                    <td>45%</td>
+                    <td><div class="weight-bar"><div class="weight-bar-fill" style="width: 90px"></div></div></td>
+                    <td>alpha wallet clustering + win-rate quality</td>
+                </tr>
+                <tr>
+                    <td>momentum</td>
+                    <td>25%</td>
+                    <td><div class="weight-bar"><div class="weight-bar-fill amber" style="width: 50px"></div></div></td>
+                    <td>buy pressure, txn acceleration, volume ratio</td>
+                </tr>
+                <tr>
+                    <td>safety</td>
+                    <td>15%</td>
+                    <td><div class="weight-bar"><div class="weight-bar-fill" style="width: 30px"></div></div></td>
+                    <td>distribution + mint authority + deployer behaviour</td>
+                </tr>
+                <tr>
+                    <td>liquidity</td>
+                    <td>10%</td>
+                    <td><div class="weight-bar"><div class="weight-bar-fill cyan" style="width: 20px"></div></div></td>
+                    <td>pool depth (log-scaled)</td>
+                </tr>
+                <tr>
+                    <td>social</td>
+                    <td>5%</td>
+                    <td><div class="weight-bar"><div class="weight-bar-fill dim" style="width: 10px"></div></div></td>
+                    <td>metadata presence; kept small on purpose</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-lang">Python</span>
+                <span class="code-filename">src/signals/mfa_score.py</span>
+            </div>
+            <pre><code>raw = (
+    <span class="nb">0.45</span> * sm_score
+    + <span class="nb">0.25</span> * momentum_score
+    + <span class="nb">0.15</span> * safety_score
+    + <span class="nb">0.05</span> * social_score
+    + <span class="nb">0.10</span> * liquidity_score
+)
+
+<span class="kw">if</span> is_alpha_alert:
+    raw += <span class="nb">0.10</span>
+<span class="kw">if</span> source_feed == <span class="st">"graduation"</span>:
+    raw += <span class="nb">0.05</span></code></pre>
+        </div>
+
+        <p>
+            The smart money sub-score is not just “how many alpha wallets touched it”. It’s a combination of
+            alpha wallet count (scaled so 4 wallets is already max conviction), average alpha win rate (55% is elite
+            in this domain), and an alert bonus if the token was discovered via coordinated wallet activity.
+        </p>
+
+        <h2>veto_filters</h2>
+
+        <p>
+            Before scoring, hard veto filters reject tokens immediately. These aren’t “low score”. They’re
+            structural reasons the trade should never exist.
+        </p>
+
+        <ul>
+            <li><strong>liquidity &lt; $10,000</strong> (thin pool, you’ll move the market)</li>
+            <li><strong>token_age &gt; 60 minutes</strong> (late entry; most edge is gone)</li>
+            <li><strong>holders &lt; 50</strong> (too early; mostly dev + bots)</li>
+            <li><strong>mint authority active</strong> (infinite supply risk)</li>
+        </ul>
+
+        <p>
+            In the V14 diagnostics, most rejections were <code>distribution_block</code> and <code>rugcheck_danger</code>.
+            That wasn’t a bug. It was evidence that the filters were doing their job and the candidate source was
+            garbage. V15’s fix is not “turn down the filters”. It’s “stop feeding them trash”.
+        </p>
+
+        <h2>conviction_based_position_sizing</h2>
+
+        <p>
+            V15 uses conviction tiers rather than a continuous sizing function. This is deliberate.
+            With tiny bankrolls, execution quality dominates; you want discrete, predictable sizing.
+            The implementation assigns a tier based on confluence, then maps tier → % bankroll and dollar amount.
+        </p>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-lang">Python</span>
+                <span class="code-filename">src/execution/position_sizer.py</span>
+            </div>
+            <pre><code><span class="cm">Tier 1 (graduation + 2+ alpha + social): $25 (8.3%)</span>
+<span class="cm">Tier 2 (alpha wallets, no graduation):   $15 (5.0%)</span>
+<span class="cm">Tier 3 (graduation only or 1 alpha):     $10 (3.3%)</span></code></pre>
+        </div>
+
+        <p>
+            A Tier 1 signal means three independent channels agree: smart money flow, a graduation event, and
+            social presence. Tier 2 is “alpha confirmed, but no graduation”. Tier 3 is “speculative — small size”.
+            It’s a VC-style asymmetric structure: many small losses, rare large wins.
+        </p>
+
+        <h2>the_debugging_story</h2>
+
+        <p>
+            The system was dead for weeks.
+        </p>
+
+        <p>
+            Every scan cycle returned zero alpha hits. Metrics logs showed <code>alpha_wallet_hits: 0</code>.
+            The Enhanced TX API was returning data. The parsing code was running. No exceptions.
+            It looked like “no alpha wallets are trading”, which is obviously false.
+        </p>
+
+        <div class="callout">
+            <div class="callout-label">Root cause</div>
+            <p>
+                Every wallet address in the DB was stored lowercase. Solana addresses are base58 and case-sensitive.
+                A canonical address and its lowercased version are different strings.
+                The set intersection between “alpha wallets” and “observed wallets” was always empty.
+            </p>
+        </div>
+
+        <p>
+            The fix was not complicated. The painful part was that everything looked “fine” because the system
+            wasn’t crashing. It was producing valid empty outputs.
+        </p>
+
+        <p>
+            The real lesson: never normalize Solana addresses. Store exactly what the chain returns.
+            Put the constraint at the insertion point. Silent mismatch bugs are the worst kind.
+        </p>
+
+        <h2>results</h2>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <span class="metric-value">8,000+</span>
+                <span class="metric-label">signals evaluated</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">57</span>
+                <span class="metric-label">alpha wallets tracked</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">+8.3%</span>
+                <span class="metric-label">ROC (backtest)</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">30.8%</span>
+                <span class="metric-label">win rate (TP1+)</span>
+            </div>
+        </div>
+
+        <p>
+            The V15 backtest (21 signals with a complete evaluation run; 13 with price curves available)
+            applied the same execution assumptions I care about in production:
+            3% slippage on entry and exit, stop loss at -40%, take profit at +80% (TP1), and conviction tier
+            sizes of $10/$15/$25. It produced $+17.48 profit on $210 deployed, an 8.3% return on invested capital.
+        </p>
+
+        <p>
+            The interesting part is not the headline ROI. It’s the shape: the 0.85+ score band was
+            meaningfully better than the 0.80–0.85 band. That suggests the system is not “slightly better
+            than random”. It’s discriminating between setups that have genuine smart money consensus and
+            setups that are just momentum noise.
+        </p>
+
+        <hr class="section-divider">
+
+        <h2>what_didnt_work_yet</h2>
+
+        <p>
+            V15 still polls. That’s the biggest limitation.
+            Polling enhanced transactions every 15 seconds works, but it’s not where the real edge is.
+            The real edge is streaming alpha wallet token account changes via Helius Yellowstone gRPC and
+            reacting in sub-second time.
+        </p>
+
+        <p>
+            Social scoring is intentionally minimal. In meme coins, social is often a lagging indicator,
+            and sentiment is easier to manipulate than liquidity. The model reflects that by keeping
+            social at 5% weight.
+        </p>
+
+        <h2>closing</h2>
+
+        <p>
+            The point of AxiomFlow isn’t to be clever. It’s to be correctly aligned with reality.
+            Pump.fun is a graveyard. DexScreener is a lagging view of the graveyard. The only reliable
+            early signal I’ve found is watching profitable wallets and measuring when they cluster.
+        </p>
+
+        <p>
+            The 0.63% graduation rate isn’t an obstacle. It’s a filter.
+            If you can track the wallets that repeatedly navigate that filter, you stop guessing.
+            You follow the money.
+        </p>
+    </article>
+
+    <div class="blog-footer-nav">
+        <a href="../index.html">&larr; Benedict Anokye-Davies</a>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
