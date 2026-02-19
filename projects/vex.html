@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vex — Solana Smart Money Engine | Benedict Anokye-Davies</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 8, 12, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+        .nav-logo {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-logo span { color: var(--accent-amber); }
+        .nav-back {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .nav-back:hover { color: var(--accent-violet); }
+        .page-hero {
+            padding: 10rem 2rem 5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .project-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.3rem 0.8rem;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-violet);
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            margin-bottom: 1.5rem;
+        }
+        .page-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+        .meta-row { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .meta-item { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-dim); }
+        .meta-item span { color: var(--accent-amber); }
+        .content-body {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem 8rem;
+        }
+        .doc-section { margin-bottom: 5rem; }
+        .doc-section-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent-violet);
+            margin-bottom: 0.75rem;
+        }
+        .doc-section-label::before { content: '//'; margin-right: 0.5rem; color: var(--accent-amber); }
+        .doc-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        .doc-section p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.25rem;
+        }
+        .doc-section p strong { color: var(--text-primary); }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .stat-card {
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-violet);
+            display: block;
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.03em;
+        }
+        .stat-label {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .arch-diagram { display: grid; grid-template-columns: 1fr; gap: 0; margin: 2rem 0; }
+        .arch-layer { border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 10px; overflow: hidden; margin-bottom: 0.5rem; }
+        .arch-layer-header {
+            padding: 0.75rem 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .arch-layer-header .layer-num { font-size: 0.7rem; color: var(--text-dim); }
+        .layer-data .arch-layer-header { background: rgba(6,182,212,0.08); color: var(--accent-cyan); border-bottom: 1px solid rgba(6,182,212,0.15); }
+        .layer-intelligence .arch-layer-header { background: rgba(139,92,246,0.08); color: var(--accent-violet); border-bottom: 1px solid rgba(139,92,246,0.15); }
+        .layer-signal .arch-layer-header { background: rgba(245,158,11,0.08); color: var(--accent-amber); border-bottom: 1px solid rgba(245,158,11,0.15); }
+        .layer-execution .arch-layer-header { background: rgba(16,185,129,0.08); color: #10b981; border-bottom: 1px solid rgba(16,185,129,0.15); }
+        .arch-layer-body {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            background: rgba(8, 8, 12, 0.5);
+        }
+        .arch-node {
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            border: 1px solid;
+        }
+        .layer-data .arch-node { color: var(--accent-cyan); border-color: rgba(6,182,212,0.25); background: rgba(6,182,212,0.06); }
+        .layer-intelligence .arch-node { color: var(--accent-violet); border-color: rgba(139,92,246,0.25); background: rgba(139,92,246,0.06); }
+        .layer-signal .arch-node { color: var(--accent-amber); border-color: rgba(245,158,11,0.25); background: rgba(245,158,11,0.06); }
+        .layer-execution .arch-node { color: #10b981; border-color: rgba(16,185,129,0.25); background: rgba(16,185,129,0.06); }
+        .arch-connector { text-align: center; color: var(--text-dim); font-size: 1.2rem; padding: 0.1rem 0 0.2rem; line-height: 1; }
+        .score-bars { display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0; }
+        .score-bar-row { display: flex; align-items: center; gap: 1rem; }
+        .score-bar-label { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); width: 130px; flex-shrink: 0; }
+        .score-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 3px; }
+        .score-bar-pct { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-dim); width: 40px; text-align: right; flex-shrink: 0; }
+        .code-block {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(139,92,246,0.15);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.7; color: var(--text-muted); margin: 0; white-space: pre; }
+        .kw { color: var(--accent-violet); }
+        .fn { color: var(--accent-amber); }
+        .cm { color: var(--text-dim); }
+        .st { color: #10b981; }
+        .nm { color: var(--accent-cyan); }
+        .decision-list { list-style: none; padding: 0; margin: 1.5rem 0; display: flex; flex-direction: column; gap: 1.25rem; }
+        .decision-list li {
+            padding: 1.25rem 1.5rem;
+            background: rgba(8,8,12,0.5);
+            border: 1px solid rgba(139,92,246,0.12);
+            border-left: 3px solid var(--accent-violet);
+            border-radius: 0 8px 8px 0;
+        }
+        .decision-list li strong { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-primary); display: block; margin-bottom: 0.5rem; }
+        .decision-list li span { color: var(--text-muted); font-size: 0.95rem; line-height: 1.65; }
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.5rem 0; }
+        .tech-tag { font-family: var(--font-mono); font-size: 0.82rem; padding: 0.4rem 0.9rem; background: rgba(10,15,26,0.6); border: 1px solid rgba(139,92,246,0.2); border-radius: 4px; color: var(--text-muted); }
+        .divider { height: 1px; background: linear-gradient(to right, rgba(139,92,246,0.2), transparent); margin: 4rem 0; }
+        footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-text { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-dim); }
+        @media (max-width: 768px) {
+            .page-hero { padding: 7rem 1.5rem 3rem; }
+            .content-body { padding: 0 1.5rem 5rem; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .score-bar-label { width: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles-bg"></canvas>
+    <nav>
+        <a href="/" class="nav-logo">b<span>.</span>davies</a>
+        <a href="/" class="nav-back">&larr; back to main</a>
+    </nav>
+    <div class="page-hero">
+        <div class="project-badge">Solana / Trading Systems</div>
+        <h1 class="page-title">Vex</h1>
+        <p class="page-subtitle">Smart money tracking engine for Solana. Follows coordinated alpha wallet activity, scores token signals through a multi-factor conviction model, and sizes positions by tier.</p>
+        <div class="meta-row">
+            <div class="meta-item">Formerly: <span>AxiomFlow</span></div>
+            <div class="meta-item">Status: <span>Active</span></div>
+            <div class="meta-item">Signals evaluated: <span>8,000+</span></div>
+            <div class="meta-item">Alpha wallets: <span>57</span></div>
+            <div class="meta-item">Win rate (&gt;0.85): <span>30.8%</span></div>
+        </div>
+    </div>
+    <div class="content-body">
+        <div class="doc-section">
+            <div class="doc-section-label">Overview</div>
+            <h2>Why this exists</h2>
+            <p>99.37% of tokens launched on Pump.fun fail to graduate. Speed sniping &mdash; the dominant retail strategy &mdash; competes against bots with sub-millisecond execution, MEV searchers, and jito bundlers. It is a race you cannot win with a Python script and a residential IP.</p>
+            <p>The signal that actually predicts graduation is not speed. It is <strong>who is buying, and whether they are coordinating</strong>. A small cohort of wallets &mdash; identifiable by their consistent early presence on tokens that later 10x &mdash; leave a detectable on-chain fingerprint before the retail crowd arrives. Vex is built to read that fingerprint.</p>
+            <p>The premise: track the 57 wallets with the strongest historical accuracy. When multiple of them buy the same new token within a short window, treat that as a coordinated signal. Score it through a multi-factor model. Size positions by conviction tier.</p>
+            <div class="stat-grid">
+                <div class="stat-card"><span class="stat-value">99.37%</span><span class="stat-label">Pump.fun failure rate</span></div>
+                <div class="stat-card"><span class="stat-value">8,000+</span><span class="stat-label">Signals evaluated</span></div>
+                <div class="stat-card"><span class="stat-value">8.3%</span><span class="stat-label">ROC on backtest</span></div>
+                <div class="stat-card"><span class="stat-value">30.8%</span><span class="stat-label">Win rate (score &gt;0.85)</span></div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="doc-section">
+            <div class="doc-section-label">Architecture</div>
+            <h2>System layers</h2>
+            <p>Four layers, each with a single responsibility. Data collection is cleanly separated from signal generation, which is cleanly separated from execution decisions.</p>
+            <div class="arch-diagram">
+                <div class="arch-layer layer-data">
+                    <div class="arch-layer-header"><span class="layer-num">L1</span>Data Layer</div>
+                    <div class="arch-layer-body">
+                        <span class="arch-node">Helius Enhanced API</span>
+                        <span class="arch-node">DexScreener pairs feed</span>
+                        <span class="arch-node">RugCheck safety scores</span>
+                        <span class="arch-node">PumpSwap graduation feed</span>
+                    </div>
+                </div>
+                <div class="arch-connector">&#8595;</div>
+                <div class="arch-layer layer-intelligence">
+                    <div class="arch-layer-header"><span class="layer-num">L2</span>Intelligence Layer</div>
+                    <div class="arch-layer-body">
+                        <span class="arch-node">Alpha wallet DB (57 wallets)</span>
+                        <span class="arch-node">Smart money flow detector</span>
+                        <span class="arch-node">Coordinated buy detection</span>
+                        <span class="arch-node">On-chain tx parser</span>
+                    </div>
+                </div>
+                <div class="arch-connector">&#8595;</div>
+                <div class="arch-layer layer-signal">
+                    <div class="arch-layer-header"><span class="layer-num">L3</span>Signal Engine</div>
+                    <div class="arch-layer-body">
+                        <span class="arch-node">smart_money 45%</span>
+                        <span class="arch-node">momentum 25%</span>
+                        <span class="arch-node">safety 15%</span>
+                        <span class="arch-node">liquidity 10%</span>
+                        <span class="arch-node">social 5%</span>
+                    </div>
+                </div>
+                <div class="arch-connector">&#8595;</div>
+                <div class="arch-layer layer-execution">
+                    <div class="arch-layer-header"><span class="layer-num">L4</span>Execution Layer</div>
+                    <div class="arch-layer-body">
+                        <span class="arch-node">T1 conviction = $25</span>
+                        <span class="arch-node">T2 conviction = $15</span>
+                        <span class="arch-node">T3 conviction = $10</span>
+                        <span class="arch-node">Circuit breaker</span>
+                        <span class="arch-node">Paper ledger</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="doc-section">
+            <div class="doc-section-label">Signal Engine</div>
+            <h2>Multi-factor scoring model</h2>
+            <p>Each signal is scored on a 0&ndash;1 scale. The final score is a weighted linear combination of five factors. The dominant weight on <code>smart_money</code> reflects the core thesis: nothing else matters if the alpha wallets are not present.</p>
+            <div class="score-bars">
+                <div class="score-bar-row"><span class="score-bar-label">smart_money</span><div class="score-bar-track"><div class="score-bar-fill" style="width:45%;background:var(--accent-violet)"></div></div><span class="score-bar-pct">45%</span></div>
+                <div class="score-bar-row"><span class="score-bar-label">momentum</span><div class="score-bar-track"><div class="score-bar-fill" style="width:25%;background:var(--accent-amber)"></div></div><span class="score-bar-pct">25%</span></div>
+                <div class="score-bar-row"><span class="score-bar-label">safety</span><div class="score-bar-track"><div class="score-bar-fill" style="width:15%;background:var(--accent-cyan)"></div></div><span class="score-bar-pct">15%</span></div>
+                <div class="score-bar-row"><span class="score-bar-label">liquidity</span><div class="score-bar-track"><div class="score-bar-fill" style="width:10%;background:#10b981"></div></div><span class="score-bar-pct">10%</span></div>
+                <div class="score-bar-row"><span class="score-bar-label">social</span><div class="score-bar-track"><div class="score-bar-fill" style="width:5%;background:#f43f5e"></div></div><span class="score-bar-pct">5%</span></div>
+            </div>
+            <div class="code-block">
+<pre><span class="kw">def</span> <span class="fn">score_signal</span>(token: TokenData, alpha_hits: int) -> float:
+    sm_score   = min(alpha_hits / 3, 1.0)    <span class="cm"># saturates at 3+ wallets</span>
+    mom_score  = _momentum_score(token.volume_5m, token.price_delta_5m)
+    safe_score = _safety_score(token.rugcheck_score, token.lp_locked)
+    liq_score  = _liquidity_score(token.liquidity_usd)
+    soc_score  = _social_score(token.twitter_mentions)
+
+    <span class="kw">return</span> (
+        <span class="nm">0.45</span> * sm_score  +
+        <span class="nm">0.25</span> * mom_score +
+        <span class="nm">0.15</span> * safe_score +
+        <span class="nm">0.10</span> * liq_score  +
+        <span class="nm">0.05</span> * soc_score
+    )</pre>
+            </div>
+            <p>Conviction tiers map score ranges to position sizes. Tier 1 requires a score above 0.85 with 3+ alpha wallets buying within 90 seconds of each other. The threshold was derived from backtest results &mdash; below 0.85, the edge collapses.</p>
+        </div>
+        <div class="divider"></div>
+        <div class="doc-section">
+            <div class="doc-section-label">Technical Decisions</div>
+            <h2>Design rationale</h2>
+            <ul class="decision-list">
+                <li>
+                    <strong>Linear scoring over multiplicative</strong>
+                    <span>A multiplicative model zeroes out any signal with a zero factor &mdash; one bad safety score kills the trade regardless of strong smart money presence. Linear composition allows partial conviction. A token with strong smart money flow and weak social signal still scores reasonably. The model is calibrated to what actually matters, not what looks elegant on paper.</span>
+                </li>
+                <li>
+                    <strong>Alpha wallet tracking over speed sniping</strong>
+                    <span>Speed sniping is a solved problem for well-capitalised actors. The marginal cost of a jito bundle is negligible for an entity doing $1M/day volume. Competing on latency from a Python process is a structural disadvantage. Alpha wallet detection shifts the competition axis from latency to pattern recognition &mdash; a domain where a well-curated dataset creates durable edge.</span>
+                </li>
+                <li>
+                    <strong>Base58 case sensitivity</strong>
+                    <span>Solana addresses are base58-encoded and case-sensitive. Normalising to lowercase breaks address matching silently &mdash; no error thrown, just a wallet that never appears in the database. Every address in the alpha wallet DB is stored and compared in its original base58 form. This burned significant time early on. It is now enforced at the ingestion layer with a validation step before any write.</span>
+                </li>
+                <li>
+                    <strong>Helius Enhanced Transactions over raw RPC</strong>
+                    <span>Helius Enhanced API parses raw transaction data into structured swap events, removing the need to manually decode instruction data and program logs. The alternative &mdash; parsing Pump.fun and Raydium instruction layouts from raw bytes &mdash; is brittle against program upgrades. Enhanced transactions provide a stable schema at the cost of API rate limits, managed via async batching with exponential backoff.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="doc-section">
+            <div class="doc-section-label">Results</div>
+            <h2>Backtest outcomes</h2>
+            <p>Backtested against 8,000+ historical signals pulled from on-chain data. The evaluation period covers the high-volatility meme season of late 2024 through early 2025. Metrics reflect paper-trading outcomes without slippage modelling, so live performance will be softer.</p>
+            <p>The <strong>30.8% win rate on scores above 0.85</strong> is the number that matters. Given a 3-to-1 target (T1 entries target 3x before circuit break), positive expected value holds above roughly 25% win rate. The 8.3% ROC across all signals is the aggregate including low-conviction T3 entries which drag the overall figure.</p>
+            <p>Key finding: <strong>coordinated wallet count is the strongest single predictor</strong>. Signals with 4+ alpha wallets buying within 60 seconds had a 41.2% win rate, versus 18.7% for single-wallet detections. This validates the weight distribution in the scoring model.</p>
+        </div>
+        <div class="divider"></div>
+        <div class="doc-section">
+            <div class="doc-section-label">Stack</div>
+            <h2>Technology</h2>
+            <div class="tech-stack">
+                <span class="tech-tag">Python 3.12</span>
+                <span class="tech-tag">asyncio</span>
+                <span class="tech-tag">Helius Enhanced API</span>
+                <span class="tech-tag">DexScreener API</span>
+                <span class="tech-tag">RugCheck API</span>
+                <span class="tech-tag">SQLite</span>
+                <span class="tech-tag">aiosqlite</span>
+                <span class="tech-tag">httpx</span>
+                <span class="tech-tag">Solders</span>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p class="footer-text">Benedict Anokye-Davies &mdash; <a href="/" style="color:var(--accent-violet);text-decoration:none;">b-davies.dev</a></p>
+    </footer>
+    <script>
+    (function(){
+        var canvas=document.getElementById('particles-bg'),ctx=canvas.getContext('2d'),width,height,particles=[];
+        var colors=['#8b5cf6','#f59e0b','#475569'],max=window.innerWidth<768?40:70,dist=120;
+        function resize(){width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight;}
+        function Particle(){this.x=Math.random()*width;this.y=Math.random()*height;this.vx=(Math.random()-0.5)*0.5;this.vy=(Math.random()-0.5)*0.5;this.r=Math.random()*1.5+0.5;this.c=colors[Math.floor(Math.random()*colors.length)];}
+        Particle.prototype.update=function(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>width)this.vx*=-1;if(this.y<0||this.y>height)this.vy*=-1;};
+        Particle.prototype.draw=function(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.c;ctx.fill();};
+        function init(){resize();window.addEventListener('resize',resize);for(var i=0;i<max;i++)particles.push(new Particle());animate();}
+        function animate(){ctx.clearRect(0,0,width,height);for(var i=0;i<particles.length;i++){particles[i].update();particles[i].draw();for(var j=i+1;j<particles.length;j++){var dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<dist){ctx.beginPath();ctx.strokeStyle='rgba(139,92,246,'+(0.15*(1-d/dist))+')';ctx.lineWidth=0.5;ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();}}}requestAnimationFrame(animate);}
+        init();
+    })();
+    </script>
+</body>
+</html>
+
