@@ -92,8 +92,8 @@
                         <h2 class="text-sm font-bold uppercase tracking-widest text-white">About</h2>
                     </div>
                     <div class="text-base leading-relaxed text-muted space-y-4">
-                        <p>I'm a first-year Computer Science and AI student at the University of Nottingham and a Sutton Trust STEM Scholar. I build projects that go beyond coursework: trading systems, evolutionary simulations, and tools for real clients.</p>
-                        <p>Currently seeking software engineering and quantitative development internships where I can contribute to production systems and learn from experienced engineers.</p>
+                        <p>I'm a first-year Computer Science and AI student at the University of Nottingham, Bloomberg x Sutton Trust bursary recipient, and Sutton Trust STEM Scholar. I build production systems that go beyond coursework: prediction-market trading bots, evolutionary simulations, and AI infrastructure used daily.</p>
+                        <p>Currently seeking software engineering and AI/ML engineering internships where I can contribute to production systems and learn from experienced engineers.</p>
                     </div>
                 </section>
 
@@ -102,6 +102,18 @@
                         <h2 class="text-sm font-bold uppercase tracking-widest text-white">Experience</h2>
                     </div>
                     <ul class="space-y-12">
+                        <li class="relative group">
+                            <div class="group relative flex flex-col sm:flex-row gap-4 transition-all">
+                                <header class="z-10 mt-1 mb-2 text-xs font-semibold uppercase tracking-wide text-dim sm:w-1/4" aria-label="2026">2026</header>
+                                <div class="z-10 sm:w-3/4">
+                                    <h3 class="font-medium leading-snug text-white">
+                                        <div>Bloomberg x Sutton Trust Bursary</div>
+                                        <div class="text-slate font-normal">Bloomberg</div>
+                                    </h3>
+                                    <p class="mt-2 text-sm leading-normal text-muted">Selected for a competitive engineering-focused programme. Insight week at Bloomberg London, July 2026.</p>
+                                </div>
+                            </div>
+                        </li>
                         <li class="relative group">
                             <div class="group relative flex flex-col sm:flex-row gap-4 transition-all">
                                 <header class="z-10 mt-1 mb-2 text-xs font-semibold uppercase tracking-wide text-dim sm:w-1/4" aria-label="2025 to Present">2025 &mdash; Present</header>
@@ -166,53 +178,42 @@
                         <li class="mb-4">
                             <div class="group relative flex flex-col border border-white/10 rounded-lg p-6 hover:bg-white/[0.02] transition-colors">
                                 <h3 class="font-medium leading-snug text-white mb-2">
-                                    <a class="inline-flex items-baseline font-medium leading-tight text-white hover:text-violet focus-visible:text-violet transition-colors" href="https://github.com/benedict-anokye-davies/Vex" target="_blank" rel="noreferrer" aria-label="Vex">
-                                        <span>Vex<span class="inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline-block h-4 w-4 shrink-0 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none ml-1 translate-y-px" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd"></path></svg></span></span>
-                                    </a>
+                                    <span class="inline-flex items-baseline font-medium leading-tight text-white">
+                                        <span>Kalshi Prediction Market Bot</span>
+                                    </span>
                                 </h3>
                                 <p class="mt-2 text-sm leading-normal text-muted mb-4">
-                                    Real-time signal engine that evaluates new token launches on Solana using on-chain data and multi-factor scoring. Deployed on Linux VPS with systemd, CI pipeline with 43 automated tests, Docker containerisation, and automated rollback scripts.
+                                    Production trading system for a paying client on Kalshi (regulated US prediction-market exchange). Live order execution across NBA, NHL and MLB markets with stabilisation guards, order reconciliation, and a monitoring dashboard. Owner of deployment, incident response, and post-mortem analysis. 67+ production bugs identified and resolved across order routing, fee accounting, and state recovery.
                                 </p>
                                 <ul class="mt-2 flex flex-wrap" aria-label="Technologies used:">
                                     <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Python</div></li>
                                     <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">asyncio</div></li>
                                     <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">pytest</div></li>
-                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">GitHub Actions</div></li>
-                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Docker</div></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="mb-4">
-                            <div class="group relative flex flex-col border border-white/10 rounded-lg p-6 hover:bg-white/[0.02] transition-colors">
-                                <h3 class="font-medium leading-snug text-white mb-2">
-                                    <span class="inline-flex items-baseline font-medium leading-tight text-white">
-                                        <span>Forex Trading Bot</span>
-                                    </span>
-                                </h3>
-                                <p class="mt-2 text-sm leading-normal text-muted mb-4">
-                                    Automated forex trading system with dual-strategy architecture and built-in risk management. Backtested across 437 trades over 12 months. Deployed on VPS with real-time alerting and connected to a live broker API.
-                                </p>
-                                <ul class="mt-2 flex flex-wrap" aria-label="Technologies used:">
-                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Python</div></li>
-                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">OANDA API</div></li>
-                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">systemd</div></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="mb-4">
-                            <div class="group relative flex flex-col border border-white/10 rounded-lg p-6 hover:bg-white/[0.02] transition-colors">
-                                <h3 class="font-medium leading-snug text-white mb-2">
-                                    <span class="inline-flex items-baseline font-medium leading-tight text-white">
-                                        <span>Prediction Market Bot</span>
-                                    </span>
-                                </h3>
-                                <p class="mt-2 text-sm leading-normal text-muted mb-4">
-                                    Managed deployment, testing, and live operations for a prediction market trading bot built for a client. Identified and resolved 67 bugs. Handled VPS monitoring, production incident response, client communication, and strategy configuration.
-                                </p>
-                                <ul class="mt-2 flex flex-wrap" aria-label="Technologies used:">
-                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Python</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">PostgreSQL</div></li>
                                     <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Linux</div></li>
                                     <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">systemd</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Nginx</div></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="mb-4">
+                            <div class="group relative flex flex-col border border-white/10 rounded-lg p-6 hover:bg-white/[0.02] transition-colors">
+                                <h3 class="font-medium leading-snug text-white mb-2">
+                                    <span class="inline-flex items-baseline font-medium leading-tight text-white">
+                                        <span>Atlas &mdash; Personal AI Infrastructure</span>
+                                    </span>
+                                </h3>
+                                <p class="mt-2 text-sm leading-normal text-muted mb-4">
+                                    Multi-agent AI assistant I use daily for development, research, and project management. Custom skills system, persistent memory store, scheduled cron tasks, sub-agent orchestration, and a reverse-tunnel bridge to a remote VPS worker. Integrates Anthropic, OpenAI, and Fireworks LLMs behind a unified runtime.
+                                </p>
+                                <ul class="mt-2 flex flex-wrap" aria-label="Technologies used:">
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Python</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">TypeScript</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Anthropic API</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">OpenAI API</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Linux</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">systemd</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">SSH tunnels</div></li>
                                 </ul>
                             </div>
                         </li>
@@ -242,6 +243,8 @@
                                 <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">asyncio</div></li>
                                 <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">pytest</div></li>
                                 <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">GitHub Actions</div></li>
+                                <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Anthropic API</div></li>
+                                <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">OpenAI API</div></li>
                             </ul>
                         </div>
                         <div>
