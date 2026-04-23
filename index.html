@@ -92,7 +92,7 @@
                         <h2 class="text-sm font-bold uppercase tracking-widest text-white">About</h2>
                     </div>
                     <div class="text-base leading-relaxed text-muted space-y-4">
-                        <p>I'm a first-year Computer Science and AI student at the University of Nottingham, Bloomberg x Sutton Trust bursary recipient, and Sutton Trust STEM Scholar. I build production systems that go beyond coursework: prediction-market trading bots and evolutionary simulations.</p>
+                        <p>I'm a first-year Computer Science and AI student at the University of Nottingham, Bloomberg x Sutton Trust bursary recipient, and Sutton Trust STEM Scholar. I build production systems that go beyond coursework: prediction-market trading bots, evolutionary simulations, and personal automation tools.</p>
                         <p>Currently seeking software engineering and AI/ML engineering internships where I can contribute to production systems and learn from experienced engineers.</p>
                     </div>
                 </section>
@@ -193,6 +193,24 @@
                                     <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Linux</div></li>
                                     <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">systemd</div></li>
                                     <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Nginx</div></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="mb-4">
+                            <div class="group relative flex flex-col border border-white/10 rounded-lg p-6 hover:bg-white/[0.02] transition-colors">
+                                <h3 class="font-medium leading-snug text-white mb-2">
+                                    <span class="inline-flex items-baseline font-medium leading-tight text-white">
+                                        <span>Moodle Sync</span>
+                                    </span>
+                                </h3>
+                                <p class="mt-2 text-sm leading-normal text-muted mb-4">
+                                    Personal automation tool that mirrors my University of Nottingham Moodle modules to local storage. Authenticates via the Moodle mobile token endpoint, walks every enrolled course, downloads slides and resources, and tracks coursework deadlines. Runs nightly via cron with incremental sync state so only new content is fetched.
+                                </p>
+                                <ul class="mt-2 flex flex-wrap" aria-label="Technologies used:">
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Python</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">requests</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">Moodle Web Services API</div></li>
+                                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-violet/10 px-3 py-1 text-xs font-medium leading-5 text-violet">cron</div></li>
                                 </ul>
                             </div>
                         </li>
