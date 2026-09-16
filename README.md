@@ -1,37 +1,26 @@
 # b-davies.dev
 
-Personal portfolio site for Benedict Anokye-Davies.
+Benedict Anokye-Davies's portfolio. Static HTML, CSS and JavaScript, served by GitHub Pages from `main` at the repository root.
 
-## Stack
+## Run locally
 
-Plain HTML, CSS, and vanilla JS. No build step, no dependencies. Deploys to GitHub Pages.
-
-## Structure
-
-```
-b-davies.dev/
-  index.html       — single-page site
-  css/style.css    — all styles
-  js/main.js       — scroll animations, nav, skill bars
-  assets/          — static assets (images etc.)
-  CNAME            — custom domain config for GitHub Pages
-```
-
-## Deploy
-
-1. Create a GitHub repo named `b-davies.dev` (or any name you prefer)
-2. Push this directory to the `main` branch
-3. In repo Settings > Pages, set source to `main` branch, root directory
-4. The CNAME file handles custom domain routing automatically
-
-## Development
-
-Open `index.html` directly in a browser, or use any static file server:
-
-```bash
-npx serve .
-# or
+```sh
 python -m http.server 8080
 ```
 
-No build step required.
+Open http://localhost:8080. No build or dependencies are needed to serve the committed site. The distributable is the static repository tree; the playground includes its compiled browser bundle and fonts are hosted locally with their licenses.
+
+## Structure
+
+- `index.html`: selected work and background
+- `project.html`: Morphogen project note
+- `demo.html`, `morphogen/`: interactive playground
+- `style.css`, `app.js`, `assets/`: design and interactions
+- `cv/latest.pdf`: downloadable CV
+- `projects/`, `blog/`, `css/`, `js/`: preserved legacy URLs and resources
+- `CNAME`: custom domain, `b-davies.dev`
+- `VERSION`: canonical site release version
+
+## Publication
+
+Push reviewed changes to `main` to trigger GitHub Pages. Preserve `CNAME` and existing public paths. After deployment check the homepage, CV and playground over HTTPS. Reverting the release commit restores the prior site.
