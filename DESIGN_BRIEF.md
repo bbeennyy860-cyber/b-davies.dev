@@ -30,7 +30,7 @@ A living data visualization - like looking at a quant workstation where data str
 - Each card: unique colored accent stripe on left edge
 - AxiomFlow QuantLab (violet): "8,000+ signals analyzed, 57 alpha wallets tracked, conviction-based sizing"
 - Atlas AI (amber): "15+ models orchestrated, 100+ files in vector memory, autonomous execution"  
-- Kalshi Bot (cyan): "production-deployed, real capital, automated sports prediction markets"
+- Trading-systems project (cyan): private client work, not shown publicly
 - Hover: lift, glow border, subtle scale
 - Staggered fade-in (0.15s delay each)
 - NO AFOS project
