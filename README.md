@@ -16,7 +16,8 @@ Open http://localhost:8080. No build or dependencies are needed to serve the com
 - `project.html`: Morphogen project note
 - `demo.html`, `morphogen/`: interactive playground
 - `style.css`, `app.js`, `assets/`: design and interactions
-- `cv/latest.pdf`: downloadable CV
+- `cv/latest.pdf`: the general CV used by both homepage links. Replace this PDF in place when the general CV changes; keep application-specific editions separate.
+- `cv/index.html`: forwards the short `/cv/` URL to that same PDF.
 - `projects/`, `blog/`, `css/`, `js/`: preserved legacy URLs and resources
 - `CNAME`: custom domain, `b-davies.dev`
 - `VERSION`: canonical site release version

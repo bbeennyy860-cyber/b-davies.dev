@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+
+- Replaced the role-specific PDF at `/cv/latest.pdf` with the general CV without changing its address.
+- Added a direct CV link beside Selected work and restored the short `/cv/` route.
+
 ## 0.1.0
 
 Release impact: minor. First explicitly versioned static-site release; previous site was unversioned.
